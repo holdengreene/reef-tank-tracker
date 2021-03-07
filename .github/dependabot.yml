@@ -15,3 +15,5 @@ updates:
     prefix: fix
     prefix-development: chore
     include: scope
+  ignore: 
+    - dependency-name "postcss" # Ignored for tailwind support in Nuxt
