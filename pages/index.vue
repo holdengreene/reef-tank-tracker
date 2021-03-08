@@ -3,20 +3,20 @@
     <h1 class="mb-3 text-4xl font-bold">Parameters Overview</h1>
     <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-3">
       <ul v-for="parameterData in latestParameters" :key="parameterData.name">
-        <Parameter :parameter-data="parameterData" />
+        <ParameterTile :parameter-data="parameterData" />
       </ul>
     </div>
   </div>
 </template>
 
 <script>
-import Parameter from '~/components/Parameter';
+import ParameterTile from '~/components/ParameterTile';
 
 import latestParameters from '~/assets/js/parameterDummy';
 
 export default {
   components: {
-    Parameter,
+    ParameterTile,
   },
   data() {
     return {

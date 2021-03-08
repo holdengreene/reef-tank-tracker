@@ -1,3 +1,5 @@
+const colors = require('tailwindcss/colors');
+
 module.exports = {
   purge: {
     enabled: process.env.NODE_ENV === 'production',
@@ -11,10 +13,14 @@ module.exports = {
   },
   darkMode: false, // or 'media' or 'class'
   theme: {
-    extend: {},
+    extend: {
+      fill: {
+        green: colors.green,
+      },
+    },
   },
   variants: {
     extend: {},
   },
   plugins: [],
-}
+};
