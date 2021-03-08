@@ -42,6 +42,14 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
-    extractCSS: true,
+    extractCSS: true, // Extracs css into seperate files
+    postcss: {
+      preset: {
+        features: {
+          // Fixes: https://github.com/tailwindcss/tailwindcss/issues/1190#issuecomment-546621554
+          'focus-within-pseudo-class': false,
+        },
+      },
+    },
   },
 }
