@@ -24,9 +24,9 @@ export default {
           value: 0,
           trend: '',
           inRange: false,
-        }
+        };
       },
     },
   },
-}
+};
 </script>
