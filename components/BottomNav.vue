@@ -5,9 +5,6 @@
         <NavTab link="/" name="Overview">
           <OverviewLogo />
         </NavTab>
-        <NavTab link="/history" name="History">
-          <HistoryLogo />
-        </NavTab>
         <NavTab link="/add-test" name="Add Test">
           <TestLogo />
         </NavTab>
@@ -24,7 +21,6 @@ import NavTab from '~/components/NavTab';
 
 // Import SVGs
 import OverviewLogo from '~/assets/svg/home.svg';
-import HistoryLogo from '~/assets/svg/history.svg';
 import TestLogo from '~/assets/svg/test.svg';
 import HealthLogo from '~/assets/svg/health.svg';
 
@@ -32,7 +28,6 @@ export default {
   components: {
     NavTab,
     OverviewLogo,
-    HistoryLogo,
     TestLogo,
     HealthLogo,
   },
