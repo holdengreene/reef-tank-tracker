@@ -8,6 +8,7 @@
         <NavTab link="/add-test" name="Add Test">
           <TestLogo />
         </NavTab>
+        <NavTab link="/tank-health" name="Parameters"> </NavTab>
         <NavTab link="/tank-health" name="Tank Health">
           <HealthLogo />
         </NavTab>
