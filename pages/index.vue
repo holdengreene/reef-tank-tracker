@@ -26,7 +26,6 @@ export default {
   },
   apollo: {
     latestTests: {
-      prefetch: true,
       query: latestTests,
       update(data) {
         return data.parameters;

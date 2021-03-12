@@ -8,7 +8,9 @@
         <NavTab link="/add-test" name="Add Test">
           <TestLogo />
         </NavTab>
-        <NavTab link="/tank-health" name="Parameters"> </NavTab>
+        <NavTab link="/parameters" name="Parameters">
+          <PenguinLogo />
+        </NavTab>
         <NavTab link="/tank-health" name="Tank Health">
           <HealthLogo />
         </NavTab>
@@ -24,6 +26,7 @@ import NavTab from '~/components/NavTab';
 import OverviewLogo from '~/assets/svg/home.svg';
 import TestLogo from '~/assets/svg/test.svg';
 import HealthLogo from '~/assets/svg/health.svg';
+import PenguinLogo from '~/assets/svg/penguin.svg';
 
 export default {
   components: {
@@ -31,6 +34,7 @@ export default {
     OverviewLogo,
     TestLogo,
     HealthLogo,
+    PenguinLogo,
   },
 };
 </script>

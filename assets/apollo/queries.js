@@ -18,10 +18,21 @@ export const latestTests = gql`
   }
 `;
 
-export const allTanks = gql`
-  {
-    tanks {
+export const allTests = gql`
+  query AllTests($parameter: String!) {
+    tests(
+      where: { parameter: { parameter_name: { _eq: $parameter } } }
+      order_by: { created_at: desc }
+    ) {
       id
+      created_at
+      value
+      parameter {
+        color
+        min_range
+        max_range
+        target
+      }
     }
   }
 `;
