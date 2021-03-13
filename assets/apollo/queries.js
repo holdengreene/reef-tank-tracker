@@ -1,8 +1,8 @@
-import gql from 'graphql-tag';
+import { gql } from 'nuxt-graphql-request';
 
 // Grab the latest test values from the db
 export const latestTests = gql`
-  {
+  query LatestTests {
     parameters(order_by: { parameter_name: asc }) {
       id
       color
@@ -33,6 +33,15 @@ export const allTests = gql`
         max_range
         target
       }
+    }
+  }
+`;
+
+export const allParameters = gql`
+  query AllParameters {
+    parameters {
+      id
+      parameter_name
     }
   }
 `;

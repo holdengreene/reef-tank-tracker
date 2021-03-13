@@ -2,9 +2,7 @@
   <div>
     <div class="container mx-auto px-2 md:px-0">
       <h1 class="mb-3 text-4xl font-bold">{{ parameterName }}</h1>
-      <div v-if="$apollo.loading">Loading...</div>
       <table
-        v-else
         class="rounded-t-md w-full bg-gray-200 text-gray-800 shadow-sm border border-gray-100 overflow-hidden"
       >
         <thead :class="`bg-${color()}-400`">
@@ -15,7 +13,7 @@
         </thead>
         <tbody>
           <tr
-            v-for="test in latestTests"
+            v-for="test in tests"
             :key="test.id"
             class="bg-white border-b border-gray-200"
           >
@@ -31,36 +29,36 @@
 </template>
 
 <script>
+import dayjs from 'dayjs';
+
 import { allTests } from '~/assets/apollo/queries';
 
+import { capitalizeFirstLetter } from '~/assets/js/helpers';
+
 export default {
+  async asyncData({ $graphql, params }) {
+    const variables = {
+      parameter: capitalizeFirstLetter(params.parameter),
+    };
+
+    const { tests } = await $graphql.default.request(allTests, variables);
+
+    return { tests };
+  },
   data() {
     return {
-      parameterName: this.capitalizeFirstLetter(this.$route.params.parameter),
+      parameterName: capitalizeFirstLetter(this.$route.params.parameter),
     };
-  },
-  apollo: {
-    latestTests: {
-      query: allTests,
-      variables() {
-        return {
-          parameter: this.capitalizeFirstLetter(this.$route.params.parameter),
-        };
-      },
-      update(data) {
-        return data.tests;
-      },
-    },
   },
   methods: {
     date(date) {
-      return new Date(date).toLocaleString('en-US');
+      return dayjs(date).format('MM/DD/YYYY hh:mm a');
     },
     inRange(value) {
       const {
         min_range: minRange,
         max_range: maxRange,
-      } = this.latestTests[0].parameter;
+      } = this.tests[0].parameter;
 
       // If true it's in range, otherwise time to clean
       return value >= minRange && value <= maxRange
@@ -71,7 +69,7 @@ export default {
       return string.charAt(0).toUpperCase() + string.slice(1);
     },
     color() {
-      return this.latestTests[0].parameter.color;
+      return this.tests[0].parameter.color;
     },
   },
 };

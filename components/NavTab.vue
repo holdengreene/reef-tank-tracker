@@ -2,7 +2,7 @@
   <li class="flex w-full justify-center">
     <NuxtLink
       :to="link"
-      class="flex flex-col justify-center items-center pt-2 pb-1 w-full h-full hover:bg-gray-100 focus:bg-gray-100 transition duration-300 outline-none"
+      class="flex flex-col justify-center items-center pt-2 pb-1 w-full h-full border-t-4 border-transparent hover:bg-gray-100 focus:bg-gray-100 transition duration-300 outline-none"
     >
       <slot></slot>
       <span class="text-base">{{ name }}</span>
@@ -37,7 +37,7 @@ export default {
 <style lang="postcss" scoped>
 @layer components {
   .nuxt-link-exact-active {
-    @apply border-t-4 border-green-300;
+    @apply border-green-300;
   }
 }
 </style>

@@ -1,3 +1,16 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Global Animations */
+@layer components {
+  .fade-enter-active,
+  .fade-leave-active {
+    @apply duration-500;
+  }
+
+  .fade-enter,
+  .fade-leave-to {
+    @apply opacity-0;
+  }
+}

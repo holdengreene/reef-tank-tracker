@@ -25,13 +25,13 @@ export default {
     '@nuxtjs/eslint-module',
     // https://go.nuxtjs.dev/tailwindcss
     '@nuxtjs/tailwindcss',
+    'nuxt-graphql-request',
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     // https://go.nuxtjs.dev/pwa
     '@nuxtjs/pwa',
-    '@nuxtjs/apollo',
   ],
 
   // PWA module configuration: https://go.nuxtjs.dev/pwa
@@ -41,10 +41,10 @@ export default {
     },
   },
 
-  apollo: {
-    clientConfigs: {
+  graphql: {
+    clients: {
       default: {
-        httpEndpoint: 'http://localhost:8080/v1/graphql',
+        endpoint: 'http://localhost:8080/v1/graphql',
       },
     },
   },

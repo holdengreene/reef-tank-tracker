@@ -21,6 +21,8 @@
 </template>
 
 <script>
+import dayjs from 'dayjs';
+
 export default {
   props: {
     parameter: {
@@ -45,9 +47,7 @@ export default {
   },
   methods: {
     date() {
-      return new Date(this.parameter.tests[0].created_at).toLocaleDateString(
-        'en-US'
-      );
+      return dayjs(this.parameter.tests[0].created_at).format('MM/DD/YYYY');
     },
     inRange() {
       const { min_range: minRange, max_range: maxRange } = this.parameter;
