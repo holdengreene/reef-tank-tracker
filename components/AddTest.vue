@@ -86,15 +86,13 @@
 <script>
 import dayjs from 'dayjs';
 
-import ToastNotification from '~/components/ToastNotification';
-
 // Apollo
 import { allParameters } from '~/assets/apollo/queries';
 import { createTest } from '~/assets/apollo/mutations';
 
 export default {
   components: {
-    ToastNotification,
+    ToastNotification: () => import('~/components/ToastNotification'), // Lazy load it
   },
   data() {
     return {
@@ -102,7 +100,7 @@ export default {
       value: 0,
       testedToday: true,
       testDate: dayjs().format('YYYY-MM-DD'),
-      testTime: dayjs().format('HH:mm:ss'),
+      testTime: dayjs().format('HH:mm'),
       parameters: [],
       saving: false,
       created: false,
@@ -131,6 +129,7 @@ export default {
       const variables = {
         parameterId: this.parameterId,
         value: this.value,
+        createdAt: new Date(`${this.testDate} ${this.testTime}`).toISOString(),
       };
 
       const {
@@ -150,7 +149,7 @@ export default {
       this.value = 0;
       this.testedToday = true;
       this.testDate = dayjs().format('YYYY-MM-DD');
-      this.testTime = dayjs().format('HH:mm:ss');
+      this.testTime = dayjs().format('HH:mm');
     },
     setToastHide() {
       setTimeout(() => (this.created = false), 3000);

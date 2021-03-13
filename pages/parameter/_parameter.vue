@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="mb-16">
     <div class="container mx-auto px-2 md:px-0">
       <h1 class="mb-3 text-4xl font-bold">{{ parameterName }}</h1>
       <table
