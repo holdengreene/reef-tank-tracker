@@ -17,7 +17,7 @@
             :key="test.id"
             class="bg-white border-b border-gray-200"
           >
-            <td class="px-4 py-3">{{ date(test.created_at) }}</td>
+            <td class="px-4 py-3">{{ date(test.date_tested) }}</td>
             <td class="px-4 py-3" :class="inRange(test.value)">
               {{ test.value }}
             </td>

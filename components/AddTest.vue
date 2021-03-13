@@ -129,7 +129,7 @@ export default {
       const variables = {
         parameterId: this.parameterId,
         value: this.value,
-        createdAt: new Date(`${this.testDate} ${this.testTime}`).toISOString(),
+        dateTested: new Date(`${this.testDate} ${this.testTime}`).toISOString(),
       };
 
       const {

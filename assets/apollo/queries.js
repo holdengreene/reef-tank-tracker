@@ -10,9 +10,9 @@ export const latestTests = gql`
       min_range
       target
       parameter_name
-      tests(limit: 2, order_by: { created_at: desc }) {
+      tests(limit: 2, order_by: { date_tested: desc }) {
         value
-        created_at
+        date_tested
       }
     }
   }
@@ -22,10 +22,10 @@ export const allTests = gql`
   query AllTests($parameter: String!) {
     tests(
       where: { parameter: { parameter_name: { _eq: $parameter } } }
-      order_by: { created_at: desc }
+      order_by: { date_tested: desc }
     ) {
       id
-      created_at
+      date_tested
       value
       parameter {
         color
