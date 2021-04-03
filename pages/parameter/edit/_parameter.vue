@@ -4,7 +4,7 @@
       Edit {{ parameter.parameter_name }}
     </h1>
 
-    <ParameterForm :parameter="parameter" />
+    <ParameterForm :parameter="parameter" :edit="true" />
   </div>
 </template>
 

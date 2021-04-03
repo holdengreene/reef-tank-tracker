@@ -3,7 +3,7 @@
     action="#"
     method="post"
     :class="saving ? 'opacity-60' : ''"
-    @submit.stop.prevent="updateParameter"
+    @submit.stop.prevent="edit ? updateParameter() : createParameter()"
   >
     <div class="flex flex-col max-w-xs mb-2">
       <label for="parameterName">Name</label>
@@ -13,6 +13,7 @@
         class="p-1 border"
         name="parameterName"
         type="text"
+        required
       />
     </div>
 
@@ -23,7 +24,9 @@
         v-model.number="minValue"
         class="p-1 border"
         name="minValue"
+        min="0"
         type="number"
+        required
       />
     </div>
 
@@ -34,7 +37,9 @@
         v-model.number="maxValue"
         class="p-1 border"
         name="maxValue"
+        min="0"
         type="number"
+        required
       />
     </div>
 
@@ -46,8 +51,11 @@
         class="p-1 border"
         name="target"
         type="number"
+        required
       />
     </div>
+
+    <!-- TODO: Switch to checkboxes -->
 
     <!-- <div class="flex flex-col max-w-xs mb-2">
       <label for="color">Color</label>
@@ -61,14 +69,18 @@
       </div>
     </div> -->
 
-    <button class="bg-green-400 p-2 rounded-sm mt-6" type="submit">
-      Update Parameter
+    <button
+      class="bg-green-400 p-2 rounded-sm mt-6"
+      type="submit"
+      :disabled="saving"
+    >
+      {{ edit ? 'Update Parameter' : 'Create Parameter' }}
     </button>
   </form>
 </template>
 
 <script>
-import { updateParameter } from '~/assets/apollo/mutations';
+import { updateParameter, createParameter } from '~/assets/apollo/mutations';
 
 export default {
   props: {
@@ -78,15 +90,19 @@ export default {
         return {};
       },
     },
+    edit: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
-      id: this.parameter.id,
-      parameterName: this.parameter.parameter_name,
-      minValue: this.parameter.min_range,
-      maxValue: this.parameter.max_range,
-      target: this.parameter.target,
-      color: this.parameter.color,
+      id: null,
+      parameterName: '',
+      minValue: 0,
+      maxValue: 0,
+      target: 0,
+      color: 'green',
       colorsArray: [
         'bg-green-400',
         'bg-red-400',
@@ -99,6 +115,17 @@ export default {
       ],
       saving: false,
     };
+  },
+  mounted() {
+    // Prepopulate the fields if editing
+    if (this.edit) {
+      this.id = this.parameter.id;
+      this.parameterName = this.parameter.parameter_name;
+      this.minValue = this.parameter.min_range;
+      this.maxValue = this.parameter.max_range;
+      this.target = this.parameter.target;
+      this.color = this.parameter.color;
+    }
   },
   methods: {
     async updateParameter() {
@@ -119,6 +146,34 @@ export default {
       if (parameter.returning[0].id !== 0) {
         // Success
         this.$router.push(`/parameter/${this.parameterName}?updated=true`);
+      } else {
+        this.saving = false;
+        // Not so success
+        throw new Error(
+          "Something didn't work. I'd suggest coming up with a better error message."
+        );
+      }
+    },
+    async createParameter() {
+      this.saving = true;
+
+      const variables = {
+        color: this.color,
+        max_range: this.maxValue,
+        min_range: this.minValue,
+        parameter_name: this.parameterName,
+        target: this.target,
+      };
+
+      const {
+        insert_parameters_one: parameter,
+      } = await this.$graphql.default.request(createParameter, variables);
+
+      if (parameter.id !== 0) {
+        // Success
+        this.$router.push(
+          `/parameter/${parameter.parameter_name}?created=true`
+        );
       } else {
         this.saving = false;
         // Not so success

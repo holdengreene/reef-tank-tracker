@@ -21,10 +21,10 @@ export const createTest = gql`
 export const updateParameter = gql`
   mutation UpdateParameter(
     $color: String!
-    $max_range: float8
-    $min_range: float8
+    $max_range: float8!
+    $min_range: float8!
     $parameter_name: String!
-    $target: float8
+    $target: float8!
     $id: Int!
   ) {
     update_parameters(
@@ -40,6 +40,30 @@ export const updateParameter = gql`
       returning {
         id
       }
+    }
+  }
+`;
+
+export const createParameter = gql`
+  mutation CreateParameter(
+    $color: String!
+    $max_range: float8!
+    $min_range: float8!
+    $parameter_name: String!
+    $target: float8!
+  ) {
+    insert_parameters_one(
+      object: {
+        color: $color
+        max_range: $max_range
+        min_range: $min_range
+        parameter_name: $parameter_name
+        target: $target
+        tank_id: 1
+      }
+    ) {
+      id
+      parameter_name
     }
   }
 `;

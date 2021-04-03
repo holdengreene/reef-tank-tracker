@@ -59,8 +59,8 @@ export default {
         : 'text-red-600';
     },
     trend() {
-      const { value: newValue } = this.parameter.tests[0];
-      const { value: oldValue } = this.parameter.tests[1];
+      const { value: newValue } = this.parameter.tests[0] ?? { value: 0 };
+      const { value: oldValue } = this.parameter.tests[1] ?? { value: 0 };
 
       return newValue > oldValue ? 'up' : 'down';
     },

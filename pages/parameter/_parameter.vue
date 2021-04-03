@@ -3,6 +3,7 @@
     <div class="container mx-auto px-2 md:px-0">
       <h1 class="mb-3 text-4xl font-bold">{{ parameterName }}</h1>
       <table
+        v-if="tests && tests.length > 0"
         class="rounded-t-md w-full bg-gray-200 text-gray-800 shadow-sm border border-gray-100 overflow-hidden"
       >
         <thead :class="`bg-${color()}-400`">
@@ -24,10 +25,21 @@
           </tr>
         </tbody>
       </table>
+      <div v-else>
+        <p>
+          No tests currently exist for this parameter. Add one
+          <NuxtLink to="/add-test" class="underline text-blue-600"
+            >here</NuxtLink
+          >.
+        </p>
+      </div>
     </div>
 
     <transition name="fade">
-      <ToastNotification v-if="updated" message="Parameter Updated" />
+      <ToastNotification
+        v-if="updated || created"
+        :message="`Parameter ${updated ? 'Updated' : 'Created'}`"
+      />
     </transition>
   </div>
 </template>
@@ -55,6 +67,7 @@ export default {
     return {
       parameterName: capitalizeFirstLetter(this.$route.params.parameter),
       updated: false,
+      created: false,
     };
   },
   mounted() {
@@ -62,7 +75,20 @@ export default {
       this.updated = true;
 
       // Remove the toast after 3 seconds
-      setTimeout(() => (this.updated = false), 3000);
+      setTimeout(() => {
+        this.updated = false;
+        this.$router.replace({ query: null });
+      }, 3000);
+    }
+
+    if (this.$route.query?.created === 'true') {
+      this.created = true;
+
+      // Remove the toast after 3 seconds
+      setTimeout(() => {
+        this.created = false;
+        this.$router.replace({ query: null });
+      }, 3000);
     }
   },
   methods: {

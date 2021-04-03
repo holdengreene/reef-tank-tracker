@@ -34,13 +34,19 @@
         </tr>
       </tbody>
     </table>
+
+    <Fab link="/parameter/create" />
   </div>
 </template>
 
 <script>
 import { allParameters } from '~/assets/apollo/queries';
+import Fab from '~/components/Fab';
 
 export default {
+  components: {
+    Fab,
+  },
   async asyncData({ $graphql }) {
     const { parameters } = await $graphql.default.request(allParameters);
 
