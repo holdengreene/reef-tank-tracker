@@ -17,3 +17,29 @@ export const createTest = gql`
     }
   }
 `;
+
+export const updateParameter = gql`
+  mutation UpdateParameter(
+    $color: String!
+    $max_range: float8
+    $min_range: float8
+    $parameter_name: String!
+    $target: float8
+    $id: Int!
+  ) {
+    update_parameters(
+      _set: {
+        color: $color
+        max_range: $max_range
+        min_range: $min_range
+        parameter_name: $parameter_name
+        target: $target
+      }
+      where: { id: { _eq: $id } }
+    ) {
+      returning {
+        id
+      }
+    }
+  }
+`;

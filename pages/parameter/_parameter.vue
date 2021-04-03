@@ -25,6 +25,10 @@
         </tbody>
       </table>
     </div>
+
+    <transition name="fade">
+      <ToastNotification v-if="updated" message="Parameter Updated" />
+    </transition>
   </div>
 </template>
 
@@ -36,11 +40,13 @@ import { allTests } from '~/assets/apollo/queries';
 import { capitalizeFirstLetter } from '~/assets/js/helpers';
 
 export default {
+  components: {
+    ToastNotification: () => import('~/components/ToastNotification'),
+  },
   async asyncData({ $graphql, params }) {
     const variables = {
       parameter: capitalizeFirstLetter(params.parameter),
     };
-
     const { tests } = await $graphql.default.request(allTests, variables);
 
     return { tests };
@@ -48,7 +54,16 @@ export default {
   data() {
     return {
       parameterName: capitalizeFirstLetter(this.$route.params.parameter),
+      updated: false,
     };
+  },
+  mounted() {
+    if (this.$route.query?.updated === 'true') {
+      this.updated = true;
+
+      // Remove the toast after 3 seconds
+      // setTimeout(() => (this.updated = false), 3000);
+    }
   },
   methods: {
     date(date) {
@@ -64,9 +79,6 @@ export default {
       return value >= minRange && value <= maxRange
         ? 'text-green-600'
         : 'text-red-600';
-    },
-    capitalizeFirstLetter(string) {
-      return string.charAt(0).toUpperCase() + string.slice(1);
     },
     color() {
       return this.tests[0].parameter.color;

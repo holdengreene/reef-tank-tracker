@@ -4,7 +4,7 @@
       action="#"
       method="POST"
       :class="saving ? 'opacity-60' : ''"
-      @submit="addTest"
+      @submit.stop.prevent="addTest"
     >
       <div class="flex flex-col max-w-xs mb-2">
         <label for="parameterId">Parameter</label>
@@ -87,7 +87,7 @@
 import dayjs from 'dayjs';
 
 // Apollo
-import { allParameters } from '~/assets/apollo/queries';
+import { parameterNames } from '~/assets/apollo/queries';
 import { createTest } from '~/assets/apollo/mutations';
 
 export default {
@@ -107,7 +107,7 @@ export default {
     };
   },
   async fetch() {
-    const { parameters } = await this.$graphql.default.request(allParameters);
+    const { parameters } = await this.$graphql.default.request(parameterNames);
 
     return (this.parameters = parameters);
   },
@@ -122,8 +122,7 @@ export default {
     },
   },
   methods: {
-    async addTest(e) {
-      e.preventDefault();
+    async addTest() {
       this.saving = true;
 
       const variables = {

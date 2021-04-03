@@ -37,11 +37,36 @@ export const allTests = gql`
   }
 `;
 
+export const parameterNames = gql`
+  query ParameterNames {
+    parameters {
+      id
+      parameter_name
+    }
+  }
+`;
+
 export const allParameters = gql`
   query AllParameters {
     parameters {
       id
       parameter_name
+      min_range
+      max_range
+      target
+    }
+  }
+`;
+
+export const parameter = gql`
+  query parameter($name: String!) {
+    parameters(where: { parameter_name: { _eq: $name } }) {
+      id
+      parameter_name
+      min_range
+      max_range
+      target
+      color
     }
   }
 `;
