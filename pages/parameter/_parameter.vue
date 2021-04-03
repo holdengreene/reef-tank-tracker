@@ -62,7 +62,7 @@ export default {
       this.updated = true;
 
       // Remove the toast after 3 seconds
-      // setTimeout(() => (this.updated = false), 3000);
+      setTimeout(() => (this.updated = false), 3000);
     }
   },
   methods: {
