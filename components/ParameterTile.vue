@@ -2,14 +2,14 @@
   <li
     class="p-2 bg-white rounded-md shadow-sm text-center border border-gray-100 relative overflow-hidden"
   >
-    <NuxtLink :to="`/parameter/${parameter.parameter_name.toLowerCase()}`">
+    <NuxtLink :to="`/parameter/${parameter.name.trim().toLowerCase()}`">
       <div
         class="border-t-4 absolute inset-0"
         :class="`border-${parameter.color}-400`"
       ></div>
-      <h2 class="text-lg font-semibold">{{ parameter.parameter_name }}</h2>
+      <h2 class="text-lg font-semibold">{{ parameter.name }}</h2>
       <p class="text-2xl font-bold" :class="inRange()">
-        {{ parameter.tests[0].value }}
+        {{ parameter.tests[0] ? parameter.tests[0].value : '0' }}
       </p>
       <div>{{ trend() }}</div>
 
@@ -30,7 +30,7 @@ export default {
       default() {
         return {
           id: 0,
-          parameter_name: '',
+          name: '',
           color: 'green',
           max_range: 0,
           min_range: 0,
@@ -47,9 +47,13 @@ export default {
   },
   methods: {
     date() {
-      return dayjs(this.parameter.tests[0].date_tested).format('MM/DD/YYYY');
+      return dayjs(this.parameter.tests[0]?.date_tested).format('MM/DD/YYYY');
     },
     inRange() {
+      if (!this.parameter?.tests[0]) {
+        return false;
+      }
+
       const { min_range: minRange, max_range: maxRange } = this.parameter;
       const { value } = this.parameter.tests[0];
 

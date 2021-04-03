@@ -1,7 +1,7 @@
 <template>
   <div class="container mx-auto px-2 md:px-0">
     <h1 class="mb-3 text-4xl font-bold capitalize">
-      Edit {{ parameter.parameter_name }}
+      Edit {{ parameter.name }}
     </h1>
 
     <ParameterForm :parameter="parameter" :edit="true" />

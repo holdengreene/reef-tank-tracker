@@ -28,7 +28,12 @@
       <div v-else>
         <p>
           No tests currently exist for this parameter. Add one
-          <NuxtLink to="/add-test" class="underline text-blue-600"
+          <NuxtLink
+            :to="{
+              path: '/add-test',
+              query: { parameter: parameterName },
+            }"
+            class="underline text-blue-600"
             >here</NuxtLink
           >.
         </p>

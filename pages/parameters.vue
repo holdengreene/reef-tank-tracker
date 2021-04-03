@@ -18,14 +18,14 @@
           :key="parameter.id"
           class="bg-white border-b border-gray-200"
         >
-          <td class="px-4 py-3">{{ parameter.parameter_name }}</td>
+          <td class="px-4 py-3">{{ parameter.name }}</td>
           <td class="px-4 py-3">
             {{ `${parameter.min_range} - ${parameter.max_range}` }}
           </td>
           <td class="px-4 py-3">{{ parameter.target }}</td>
           <td class="px-4 py-3">
             <NuxtLink
-              :to="`/parameter/edit/${parameter.parameter_name.toLowerCase()}`"
+              :to="`/parameter/edit/${parameter.name.toLowerCase()}`"
               class="bg-blue-600 text-white px-3 py-1 rounded-sm"
             >
               Edit

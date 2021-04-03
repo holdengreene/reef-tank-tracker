@@ -19,7 +19,7 @@
             :key="parameter.id"
             :value="parameter.id"
           >
-            {{ parameter.parameter_name }}
+            {{ parameter.name }}
           </option>
         </select>
       </div>
@@ -29,7 +29,6 @@
         <input
           id="value"
           v-model.number="value"
-          type="number"
           name="value"
           class="p-1 border"
           min="0"
@@ -73,7 +72,11 @@
         </div>
       </div>
 
-      <button class="bg-green-400 p-2 rounded-sm" type="submit">
+      <button
+        class="bg-green-400 p-2 rounded-sm"
+        type="submit"
+        :disabled="saving"
+      >
         {{ saving ? 'Adding Test' : 'Add Test' }}
       </button>
     </form>
@@ -87,7 +90,7 @@
 import dayjs from 'dayjs';
 
 // Apollo
-import { parameterNames } from '~/assets/apollo/queries';
+import { parameterNames, parameterId } from '~/assets/apollo/queries';
 import { createTest } from '~/assets/apollo/mutations';
 
 export default {
@@ -121,6 +124,11 @@ export default {
       return false;
     },
   },
+  beforeMount() {
+    if (this.$route.query?.parameter) {
+      this.getParameterId(this.$route.query.parameter);
+    }
+  },
   methods: {
     async addTest() {
       this.saving = true;
@@ -152,6 +160,18 @@ export default {
     },
     setToastHide() {
       setTimeout(() => (this.created = false), 3000);
+    },
+    async getParameterId(name) {
+      const variables = {
+        name,
+      };
+
+      const { parameters } = await this.$graphql.default.request(
+        parameterId,
+        variables
+      );
+
+      return (this.parameterId = parameters[0].id);
     },
   },
 };

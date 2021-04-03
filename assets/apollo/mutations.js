@@ -23,7 +23,7 @@ export const updateParameter = gql`
     $color: String!
     $max_range: float8!
     $min_range: float8!
-    $parameter_name: String!
+    $name: String!
     $target: float8!
     $id: Int!
   ) {
@@ -32,7 +32,7 @@ export const updateParameter = gql`
         color: $color
         max_range: $max_range
         min_range: $min_range
-        parameter_name: $parameter_name
+        name: $name
         target: $target
       }
       where: { id: { _eq: $id } }
@@ -49,7 +49,7 @@ export const createParameter = gql`
     $color: String!
     $max_range: float8!
     $min_range: float8!
-    $parameter_name: String!
+    $name: String!
     $target: float8!
   ) {
     insert_parameters_one(
@@ -57,13 +57,13 @@ export const createParameter = gql`
         color: $color
         max_range: $max_range
         min_range: $min_range
-        parameter_name: $parameter_name
+        name: $name
         target: $target
         tank_id: 1
       }
     ) {
       id
-      parameter_name
+      name
     }
   }
 `;

@@ -9,7 +9,7 @@
       <label for="parameterName">Name</label>
       <input
         id="parameterName"
-        v-model="parameterName"
+        v-model.trim="parameterName"
         class="p-1 border"
         name="parameterName"
         type="text"
@@ -21,11 +21,10 @@
       <label for="minValue">Min Value</label>
       <input
         id="minValue"
-        v-model.number="minValue"
+        v-model.number.trim="minValue"
         class="p-1 border"
         name="minValue"
         min="0"
-        type="number"
         required
       />
     </div>
@@ -34,11 +33,10 @@
       <label for="maxValue">Max Value</label>
       <input
         id="maxValue"
-        v-model.number="maxValue"
+        v-model.number.trim="maxValue"
         class="p-1 border"
         name="maxValue"
         min="0"
-        type="number"
         required
       />
     </div>
@@ -47,10 +45,9 @@
       <label for="target">Target</label>
       <input
         id="target"
-        v-model.number="target"
+        v-model.number.trim="target"
         class="p-1 border"
         name="target"
-        type="number"
         required
       />
     </div>
@@ -120,7 +117,7 @@ export default {
     // Prepopulate the fields if editing
     if (this.edit) {
       this.id = this.parameter.id;
-      this.parameterName = this.parameter.parameter_name;
+      this.parameterName = this.parameter.name;
       this.minValue = this.parameter.min_range;
       this.maxValue = this.parameter.max_range;
       this.target = this.parameter.target;
@@ -134,7 +131,7 @@ export default {
         color: this.color,
         max_range: this.maxValue,
         min_range: this.minValue,
-        parameter_name: this.parameterName,
+        name: this.parameterName,
         target: this.target,
         id: this.id,
       };
@@ -161,7 +158,7 @@ export default {
         color: this.color,
         max_range: this.maxValue,
         min_range: this.minValue,
-        parameter_name: this.parameterName,
+        name: this.parameterName,
         target: this.target,
       };
 
@@ -171,9 +168,7 @@ export default {
 
       if (parameter.id !== 0) {
         // Success
-        this.$router.push(
-          `/parameter/${parameter.parameter_name}?created=true`
-        );
+        this.$router.push(`/parameter/${parameter.name}?created=true`);
       } else {
         this.saving = false;
         // Not so success
