@@ -1,7 +1,9 @@
 <template>
   <div class="mb-16">
     <div class="container mx-auto px-2 md:px-0">
-      <h1 class="mb-3 text-4xl font-bold">{{ parameterName }}</h1>
+      <h1 class="mb-3 text-4xl font-bold">
+        {{ capitalizeFirstLetter(parameterName) }}
+      </h1>
       <table
         v-if="tests && tests.length > 0"
         class="rounded-t-md w-full bg-gray-200 text-gray-800 shadow-sm border border-gray-100 overflow-hidden"
@@ -31,7 +33,7 @@
           <NuxtLink
             :to="{
               path: '/add-test',
-              query: { parameter: parameterName },
+              query: { parameter: capitalizeFirstLetter(parameterName) },
             }"
             class="underline text-blue-600"
             >here</NuxtLink
@@ -52,28 +54,31 @@
 <script>
 import dayjs from 'dayjs';
 
-import { allTests } from '~/assets/apollo/queries';
-
 import { capitalizeFirstLetter } from '~/assets/js/helpers';
 
 export default {
   components: {
     ToastNotification: () => import('~/components/ToastNotification'),
   },
-  async asyncData({ $graphql, params }) {
-    const variables = {
-      parameter: capitalizeFirstLetter(params.parameter),
-    };
-    const { tests } = await $graphql.default.request(allTests, variables);
-
-    return { tests };
-  },
   data() {
     return {
-      parameterName: capitalizeFirstLetter(this.$route.params.parameter),
+      parameterName: this.$route.params.parameter,
       updated: false,
       created: false,
     };
+  },
+  async fetch() {
+    if (!this.$store.state?.tests?.list?.[this.parameterName]) {
+      await this.$store.dispatch(
+        'tests/fetchAllTestsParameter',
+        this.parameterName
+      );
+    }
+  },
+  computed: {
+    tests() {
+      return this.$store.state.tests.list?.[this.parameterName];
+    },
   },
   mounted() {
     if (this.$route.query?.updated === 'true') {
@@ -110,6 +115,9 @@ export default {
       return value >= minRange && value <= maxRange
         ? 'text-green-600'
         : 'text-red-600';
+    },
+    capitalizeFirstLetter(word) {
+      return capitalizeFirstLetter(word);
     },
     color() {
       return this.tests[0].parameter.color;

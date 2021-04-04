@@ -40,22 +40,26 @@
 </template>
 
 <script>
-import { allParameters } from '~/assets/apollo/queries';
 import Fab from '~/components/Fab';
 
 export default {
   components: {
     Fab,
   },
-  async asyncData({ $graphql }) {
-    const { parameters } = await $graphql.default.request(allParameters);
-
-    return { parameters };
-  },
   data() {
     return {
       currentParameter: 0,
     };
+  },
+  async fetch() {
+    if (this.$store.state?.parameters.list.length === 0) {
+      await this.$store.dispatch('parameters/fetchAllParameters');
+    }
+  },
+  computed: {
+    parameters() {
+      return this.$store.state?.parameters.list;
+    },
   },
 };
 </script>
